@@ -1,10 +1,10 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = new Sequelize('qualidade', 'root', 'root', {
-  host: 'localhost',
+  host: 'mysql',
   dialect: 'mysql'
 });
 
-const Users = sequelize.define('Users', {
+const User = sequelize.define('User', {  // Singular form
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -17,12 +17,27 @@ const Users = sequelize.define('Users', {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+    unique: {
+      msg: 'Email already in use'
+    },
+    validate: {
+      isEmail: {
+        msg: 'Must be a valid email address'
+      }
+    }
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: true
+    allowNull: true,
+    validate: {
+      len: {
+        args: [6, 255],
+        msg: 'Password must be between 6 and 255 characters'
+      }
+    }
   }
+}, {
+  timestamps: true  // Enable automatic timestamps
 });
 
-module.exports = Users;
+module.exports = User;

@@ -1,6 +1,6 @@
 const express = require('express');
 const { Sequelize } = require('sequelize');
-const userRoutes = require('./routes/userRoutes'); // Verifique o caminho correto do seu arquivo userRoutes
+const userRoutes = require('./routes/userRoutes');
 const config = require('./config/config.json');
 
 const app = express();

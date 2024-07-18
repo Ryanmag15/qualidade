@@ -2,6 +2,11 @@ version: '3.8'
 
 services:
   backend:
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=qualidade
     build: 
       context: ./backend
     ports:
@@ -12,6 +17,8 @@ services:
       - ./backend/.env
     depends_on:
       - mysql
+    networks:
+      - qualidade-network
 
   frontend:
     build: 
@@ -20,6 +27,8 @@ services:
       - "3001:3001"
     volumes:
       - ./frontend:/usr/src/app
+    networks:
+      - qualidade-network
 
   mysql:
     image: mysql:8.0
@@ -30,6 +39,11 @@ services:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+    networks:
+      - qualidade-network
 
 volumes:
   mysql-data:
+
+networks:
+  qualidade-network:

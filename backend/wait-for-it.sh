@@ -1,2 +1,13 @@
-chmod +x backend/wait-for-it.sh
-curl -o backend/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
+#!/bin/bash
+
+host="$1"
+shift
+cmd="$@"
+
+until nc -z "$host" 3306; do
+  >&2 echo "MySQL is unavailable - sleeping"
+  sleep 1
+done
+
+>&2 echo "MySQL is up - executing command"
+exec $cmd
